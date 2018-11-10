@@ -53,7 +53,7 @@ class LoginScreenState extends State<LoginScreen>
               ),
               new FlatButton(
                 onPressed: () =>
-                    Navigator.pushNamedAndRemoveUntil(context, "/home", ((Route<dynamic> route) => false)),
+                    Navigator.pushNamedAndRemoveUntil(context, "/home", ((Route<dynamic> route) => true)),
                 child: new Text('Yes'),
               ),
             ],

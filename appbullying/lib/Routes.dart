@@ -1,3 +1,4 @@
+import 'package:appbullying/Screens/Chat/index.dart';
 import 'package:flutter/material.dart';
 import 'package:appbullying/Screens/Login/index.dart';
 import 'package:appbullying/Screens/Home/index.dart';
@@ -19,6 +20,11 @@ class Routes {
           case '/home':
             return new MyCustomRoute(
               builder: (_) => new HomeScreen(),
+              settings: settings,
+            );
+          case '/chat':
+            return new MyCustomRoute(
+              builder: (_) => new ChatScreen(),
               settings: settings,
             );
         }

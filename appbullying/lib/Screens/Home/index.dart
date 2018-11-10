@@ -29,39 +29,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Animation<EdgeInsets> listSlidePosition;
   Animation<Color> fadeScreenAnimation;
   var animateStatus = 0;
-  List<String> months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
+
   String month = new DateFormat.MMMM().format(
     new DateTime.now(),
   );
   int index = new DateTime.now().month;
-  void _selectforward() {
-    if (index < 12)
-      setState(() {
-        ++index;
-        month = months[index - 1];
-      });
-  }
-
-  void _selectbackward() {
-    if (index > 1)
-      setState(() {
-        --index;
-        month = months[index - 1];
-      });
-  }
 
   @override
   void initState() {
@@ -175,7 +147,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: new Scaffold(
         appBar: new AppBar(
-          title: new Text("App Bullying"),
+          title: new Text("Quatro Olhos"),
         ),
         body: new Container(
           width: screenSize.width,
@@ -192,10 +164,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         splashColor: Colors.white,
                         highlightColor: Colors.white,
                         onTap: () {
-                          setState(() {
-                            animateStatus = 1;
-                          });
-                          _playAnimation();
+                          Navigator.pushNamed(context, "/chat");
                         },
                         child: new AddButton(
                           buttonGrowAnimation: buttonGrowAnimation,
