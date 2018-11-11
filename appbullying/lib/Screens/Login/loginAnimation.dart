@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({Key key, this.buttonController})
+  StaggerAnimation({Key key, this.buttonController, this.tipoUser})
       : buttonSqueezeanimation = new Tween(
           begin: 320.0,
           end: 70.0,
@@ -47,6 +47,7 @@ class StaggerAnimation extends StatelessWidget {
   final Animation<EdgeInsets> containerCircleAnimation;
   final Animation buttonSqueezeanimation;
   final Animation buttomZoomOut;
+  final String tipoUser;
 
   Future<Null> _playAnimation() async {
     try {
@@ -116,8 +117,14 @@ class StaggerAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     buttonController.addListener(() {
       if (buttonController.isCompleted) {
-        Navigator.pushNamedAndRemoveUntil(
+        if(tipoUser == "C"){
+          Navigator.pushNamedAndRemoveUntil(
+            context, "/home-coordenador", ((Route<dynamic> route) => false));
+        }else{
+          Navigator.pushNamedAndRemoveUntil(
             context, "/home", ((Route<dynamic> route) => false));
+        }
+        
       }
     });
     return new AnimatedBuilder(

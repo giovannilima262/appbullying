@@ -26,6 +26,7 @@ class LoginScreenState extends State<LoginScreen>
   final TextEditingController _userController = new TextEditingController();
   final TextEditingController _senhaController = new TextEditingController();
   var animationStatus = 0;
+  String tipo;
   @override
   void initState() {
     super.initState();
@@ -44,6 +45,7 @@ class LoginScreenState extends State<LoginScreen>
         "http://192.168.25.65:8000/api/users/login",
         body: {"login": _userController.value.text, "senha": _senhaController.value.text});
     if (response.statusCode == 200) {
+      tipo = json.decode(response.body)["data"];
       logar();
     }
   }
@@ -130,7 +132,8 @@ class LoginScreenState extends State<LoginScreen>
                                 )
                               : new StaggerAnimation(
                                   buttonController:
-                                      _loginButtonController.view),
+                                      _loginButtonController.view,
+                                      tipoUser: tipo),
                         ],
                       ),
                     ],
