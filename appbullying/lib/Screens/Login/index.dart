@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'styles.dart';
 import 'loginAnimation.dart';
@@ -10,6 +12,7 @@ import '../../Components/SignInButton.dart';
 import '../../Components/WhiteTick.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -20,6 +23,8 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
   AnimationController _loginButtonController;
+  final TextEditingController _userController = new TextEditingController();
+  final TextEditingController _senhaController = new TextEditingController();
   var animationStatus = 0;
   @override
   void initState() {
@@ -32,6 +37,15 @@ class LoginScreenState extends State<LoginScreen>
   void dispose() {
     _loginButtonController.dispose();
     super.dispose();
+  }
+
+  _login() async {
+    final response = await http.post(
+        "http://192.168.25.65:8000/api/users/login",
+        body: {"login": _userController.value.text, "senha": _senhaController.value.text});
+    if (response.statusCode == 200) {
+      logar();
+    }
   }
 
   Future<Null> _playAnimation() async {
@@ -52,14 +66,21 @@ class LoginScreenState extends State<LoginScreen>
                 child: new Text('No'),
               ),
               new FlatButton(
-                onPressed: () =>
-                    Navigator.pushNamedAndRemoveUntil(context, "/home", ((Route<dynamic> route) => true)),
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                    context, "/home", ((Route<dynamic> route) => true)),
                 child: new Text('Yes'),
               ),
             ],
           ),
         ) ??
         false;
+  }
+
+  void logar() {
+   setState(() {
+      animationStatus = 1;
+    });
+    _playAnimation();
   }
 
   @override
@@ -94,7 +115,7 @@ class LoginScreenState extends State<LoginScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               new Tick(image: tick),
-                              new FormContainer(),
+                              new FormContainer(_userController, _senhaController),
                               new SignUp()
                             ],
                           ),
@@ -103,10 +124,7 @@ class LoginScreenState extends State<LoginScreen>
                                   padding: const EdgeInsets.only(bottom: 50.0),
                                   child: new InkWell(
                                       onTap: () {
-                                        setState(() {
-                                          animationStatus = 1;
-                                        });
-                                        _playAnimation();
+                                        _login();
                                       },
                                       child: new SignIn()),
                                 )
