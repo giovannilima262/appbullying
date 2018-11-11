@@ -28,7 +28,8 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       });
     } else {
       setState(() {
-        listaWidget.add(mensagemBot("Não entendi. Poderia reformular a pergunta?"));
+        listaWidget
+            .add(mensagemBot("Não entendi. Poderia reformular a pergunta?"));
       });
     }
   }
@@ -37,8 +38,8 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     setState(() {
-        listaWidget;
-      });
+      listaWidget;
+    });
     _fetchData(null);
   }
 
