@@ -27,13 +27,18 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         listaWidget.add(mensagemBot(list["data"]["mensagem"]));
       });
     } else {
-      throw Exception('Failed to load photos');
+      setState(() {
+        listaWidget.add(mensagemBot("Não entendi. Poderia reformular a pergunta?"));
+      });
     }
   }
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+        listaWidget;
+      });
     _fetchData(null);
   }
 
