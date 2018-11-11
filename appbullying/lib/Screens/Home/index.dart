@@ -136,18 +136,69 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     } on TickerCanceled {}
   }
 
+  void popupMessageBot(
+      context,
+      ) {
+    var mensagem = 1;
+    var alert = new AlertDialog(
+        title: new Text(
+          "Mensagens",
+          textAlign: TextAlign.center,
+          style: new TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        content: new Container(
+         child: mensagem != null ? new Text('Fulano, favor comparecer a coordenação', textAlign: TextAlign.justify,) : new Container(
+           height: 150,
+           child: new ListView(
+              children: <Widget>[
+                new Container(
+                  child: Icon(Icons.mail, color: Colors.black38, size: 100,),
+              ),
+                new Container(
+                  child: new Text('Não há mensagens.'),
+                )
+              ],
+            )           
+         ) 
+        ));
+    showDialog(context: context, child: alert);
+  }
+
   @override
   Widget build(BuildContext context) {
     timeDilation = 0.3;
     Size screenSize = MediaQuery.of(context).size;
-
+    var num = 1;
+    var image;
+    switch (num){
+      case 1:
+      image = 'assets/feliz.png';
+      break;
+      case 2:
+      image = 'assets/neutro.png';
+      break;
+      case 3:
+      image = 'assets/triste.png';
+      break;
+    }
     return (new WillPopScope(
       onWillPop: () async {
         return true;
       },
       child: new Scaffold(
         appBar: new AppBar(
+          backgroundColor: new Color.fromRGBO(100, 193, 150, 1),
           title: new Text("Quatro Olhos"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.mail, color: Colors.white),
+              onPressed: (){
+                popupMessageBot(context);
+              }
+            )
+          ],
         ),
         body: new Container(
           width: screenSize.width,
@@ -156,7 +207,20 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             //alignment: buttonSwingAnimation.value,
             alignment: Alignment.bottomRight,
             children: <Widget>[
-              new Container(),
+              new Container(
+                alignment: Alignment.center,
+                child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new ImageBackground(
+                backgroundImage: new DecorationImage(
+              image: new ExactAssetImage(image),
+              fit: BoxFit.cover,
+            ),
+              )
+                ],
+              ),
+              ),
               animateStatus == 0
                   ? new Padding(
                       padding: new EdgeInsets.all(20.0),
