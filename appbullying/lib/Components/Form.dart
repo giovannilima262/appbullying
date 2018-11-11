@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import './InputFields.dart';
 
 class FormContainer extends StatelessWidget {
+  TextEditingController userController;
+  TextEditingController senhaController;
+  FormContainer(TextEditingController userController, TextEditingController senhaController){
+    this.userController = userController;
+    this.senhaController = senhaController;
+  }
+
   @override
   Widget build(BuildContext context) {
     return (new Container(
@@ -14,11 +21,13 @@ class FormContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               new InputFieldArea(
+                controller: userController,
                 hint: "Usuário",
                 obscure: false,
                 icon: Icons.person_outline,
               ),
               new InputFieldArea(
+                controller: senhaController,
                 hint: "Senha",
                 obscure: true,
                 icon: Icons.lock_outline,
