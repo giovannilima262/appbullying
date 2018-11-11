@@ -15,16 +15,24 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   List<Widget> listaWidget = new List();
   Map<String, dynamic> list = Map();
   var isLoading = false;
+  String conversation_id = null;
   final TextEditingController _mensagemController = new TextEditingController();
   _fetchData(rota) async {
-    if (rota == null) {
-      rota = "ola";
-    }
-    final response = await http.get("http://192.168.25.65:8000/api/" + rota);
+    final response = await http.post("http://192.168.25.136:3000/api/message",
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "input": {"text": rota},
+          "context": {
+            "conversation_id": conversation_id,
+          }
+        }));
     if (response.statusCode == 200) {
       list = json.decode(response.body);
+      if(conversation_id == null){
+        conversation_id = list["context"]["conversation_id"];
+      }
       setState(() {
-        listaWidget.add(mensagemBot(list["data"]["mensagem"]));
+        listaWidget.add(mensagemBot(list["output"]["text"]));
       });
     } else {
       setState(() {
@@ -59,7 +67,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             color: Colors.purple,
             borderRadius: new BorderRadius.circular(20.0)),
         child: new Text(
-          item,
+          item[0],
           style: new TextStyle(
             color: Colors.white,
           ),
